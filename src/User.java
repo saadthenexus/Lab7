@@ -12,6 +12,4 @@ public abstract class User {
         this.password = password;
         this.userType = userType;
     }
-
-    public abstract void displayUserInfo();
 }
