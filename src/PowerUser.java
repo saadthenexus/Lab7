@@ -5,12 +5,14 @@ public class PowerUser extends User implements Writeable {
 
     @Override
     public void viewUserDetails() {
-        
+        System.out.println("Viewing user details (read-write access):");
+        UserFileManager.getInstance().viewUserDetails();
     }
 
     @Override
-    public void addUser(String newUserId, String username, String email, String password) {
-        
+    public void addUser(String userID, String username, String email, String password) {
+        User newUser = new RegularUser(userID, username, email, password);
+        UserFileManager.getInstance().addUser(newUser);
     }
 
 }

@@ -5,6 +5,7 @@ public class RegularUser extends User implements Readable {
 
     @Override
     public void viewUserDetails() {
-        
+        System.out.println("Viewing user details (read-only):");
+        UserFileManager.getInstance().viewUserDetails();
     }
 }
