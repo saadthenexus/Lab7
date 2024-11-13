@@ -3,26 +3,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserFileManager {
+    private static UserFileManager instance;
     private static final String USER_FILE = "User.csv";
     private static final String ADMIN_FILE = "Admin.csv";
 
-    public boolean doesUserExist(String username) {
-        return findUserInFile(USER_FILE, username) || findUserInFile(ADMIN_FILE, username);
+    private UserFileManager() {}
+
+    public static UserFileManager getInstance() {
+        if (instance == null) {
+            instance = new UserFileManager();
+        }
+        return instance;
     }
 
-    private boolean findUserInFile(String filePath, String username) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userData = line.split(",");
-                if (userData[1].equals(username)) { 
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
-        }
-        return false;
+    public boolean doesUserExist(String userID) {
+        return findUserInFile(USER_FILE, userID) || findUserInFile(ADMIN_FILE, userID);
     }
 
     public void addUser(User newUser) {
@@ -82,5 +77,21 @@ public class UserFileManager {
             return false;
         }
     }
+
+    private boolean findUserInFile(String filePath, String userID) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userData = line.split(",");
+                if (userData[0].equals(userID)) { 
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+        return false;
+    }
 }
+
 
