@@ -20,6 +20,28 @@ public class UserFileManager {
         return findUserInFile(USER_FILE, userID) || findUserInFile(ADMIN_FILE, userID);
     }
 
+    public void viewUserDetails() {
+        System.out.println("User details:");
+        displayUsersFromFile(USER_FILE);
+        displayUsersFromFile(ADMIN_FILE);
+    }
+
+    private void displayUsersFromFile(String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userData = line.split(",");
+                String userID = userData[0];
+                String username = userData[1];
+                String email = userData[2];
+                String userType = (filePath.equals(ADMIN_FILE)) ? "Admin" : userData[4];
+                System.out.println("UserID: " + userID + ", Username: " + username + ", Email: " + email + ", UserType: " + userType);
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+    }
+
     public void addUser(User newUser) {
         String filePath = newUser instanceof AdminUser ? ADMIN_FILE : USER_FILE;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
