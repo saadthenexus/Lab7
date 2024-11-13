@@ -15,8 +15,8 @@ public class UserAuthenticator {
         return instance;
     }
 
-    public boolean authenticateUser(String username) {
-        return userFileManager.doesUserExist(username);
+    public boolean authenticateUser(String userID) {
+        return userFileManager.doesUserExist(userID);
     }
 }
 
