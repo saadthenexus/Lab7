@@ -1,3 +1,5 @@
+package src;
+
 class AdminUser extends User implements Administrable {
     public AdminUser(String userID, String username, String email, String password) {
         super(userID, username, email, password, "Admin");
@@ -24,6 +26,6 @@ class AdminUser extends User implements Administrable {
     public void renameFile(String oldFileName, String newFileName) {
         UserFileManager.getInstance().renameFile(oldFileName, newFileName);
     }
-    
+
 }
 

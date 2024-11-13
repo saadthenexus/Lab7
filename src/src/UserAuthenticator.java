@@ -1,3 +1,5 @@
+package src;
+
 public class UserAuthenticator {
     private static UserAuthenticator instance;
     private UserFileManager userFileManager;
