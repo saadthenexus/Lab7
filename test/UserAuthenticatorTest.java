@@ -48,6 +48,15 @@ class UserAuthenticatorTest {
     }
 
     @Test
+    void testAuthenticateUser2() {
+        assertTrue(userAuthenticator.authenticateUser("johndoe", "pass123"), "Valid Regular user should authenticate");
+        assertTrue(userAuthenticator.authenticateUser("admin", "adminpass"), "Valid Admin user should authenticate");
+
+        assertFalse(userAuthenticator.authenticateUser("johndoe", "wrongpass"), "Invalid password should fail authentication");
+        assertFalse(userAuthenticator.authenticateUser("unknown", "pass123"), "Unknown user should fail authentication");
+    }
+
+    @Test
     void testValidateCredentials() {
         assertTrue(userAuthenticator.validateCredentials(TEST_USER_FILE, "johndoe", "pass123"), 
             "Valid credentials for 'johndoe' should return true");
