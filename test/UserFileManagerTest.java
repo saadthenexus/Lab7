@@ -37,13 +37,6 @@ class UserFileManagerTest {
     }
 
     @Test
-    void testDoesUserExist() {
-        assertTrue(userFileManager.doesUserExist("1"), "User 'johndoe' should exist");
-        assertTrue(userFileManager.doesUserExist("2"), "User 'admin' should exist");
-        assertFalse(userFileManager.doesUserExist("3"), "User 'nonexistent' should not exist");
-    }
-
-    @Test
     void testAddUser() {
         User newUser = new RegularUser("3", "newuser", "newuser@example.com", "newpass");
         userFileManager.addUser(newUser);
@@ -108,16 +101,5 @@ class UserFileManagerTest {
         assertFalse(userFileManager.authenticateUser("unknown", "pass123"), "Unknown user should fail authentication");
     }
 
-    @Test
-    void testValidateCredentials() {
-        assertTrue(userFileManager.validateCredentials(TEST_USER_FILE, "johndoe", "pass123"), 
-            "Valid credentials for 'johndoe' should return true");
-        assertTrue(userFileManager.validateCredentials(TEST_USER_FILE, "janedoe", "password456"), 
-            "Valid credentials for 'janedoe' should return true");
-        assertFalse(userFileManager.validateCredentials(TEST_USER_FILE, "johndoe", "wrongpass"), 
-            "Invalid password for 'johndoe' should return false");
-        assertFalse(userFileManager.validateCredentials(TEST_USER_FILE, "nonexistent", "pass123"), 
-            "Nonexistent username should return false");
-    }
 }
 

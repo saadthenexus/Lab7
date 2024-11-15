@@ -24,10 +24,6 @@ public class UserFileManager {
         ||validateCredentials(ADMIN_FILE, username, password);
     }
 
-    public boolean doesUserExist(String userID) {
-        return findUserInFile(USER_FILE, userID) || findUserInFile(ADMIN_FILE, userID);
-    }
-
     public void viewUserDetails() {
         System.out.println("User details:");
         displayUsersFromFile(USER_FILE);
@@ -108,22 +104,7 @@ public class UserFileManager {
         }
     }
 
-    private boolean findUserInFile(String filePath, String userID) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userData = line.split(",");
-                if (userData[0].equals(userID)) { 
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
-        }
-        return false;
-    }
-
-    public boolean validateCredentials(String filePath, String username, String password) {
+    private boolean validateCredentials(String filePath, String username, String password) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
