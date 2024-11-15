@@ -1,5 +1,9 @@
 package src;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class UserAuthenticator {
     private static UserAuthenticator instance;
     private UserFileManager userFileManager;
@@ -17,6 +21,18 @@ public class UserAuthenticator {
 
     public boolean authenticateUser(String userID) {
         return userFileManager.doesUserExist(userID);
+    }
+
+    public boolean authenticateUser(String username, String password) {
+        if (validateCredentials(userFileManager.getUserFile(), username, password)) {
+            return true;
+        }
+
+        if (validateCredentials(userFileManager.getAdminFile(), username, password)) {
+            return true;
+        }
+
+        return false;
     }
 
     private boolean validateCredentials(String filePath, String username, String password) {
