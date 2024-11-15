@@ -35,7 +35,7 @@ public class UserAuthenticator {
         return false;
     }
 
-    private boolean validateCredentials(String filePath, String username, String password) {
+    public boolean validateCredentials(String filePath, String username, String password) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {

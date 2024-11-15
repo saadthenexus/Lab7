@@ -19,6 +19,14 @@ public class UserFileManager {
         return instance;
     }
 
+    public String getUserFile() {
+        return USER_FILE;
+    }
+
+    public String getAdminFile() {
+        return ADMIN_FILE;
+    }
+
     public boolean doesUserExist(String userID) {
         return findUserInFile(USER_FILE, userID) || findUserInFile(ADMIN_FILE, userID);
     }

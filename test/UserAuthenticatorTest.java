@@ -22,7 +22,9 @@ class UserAuthenticatorTest {
     void setUp() throws IOException {
         userFileManager = UserFileManager.getInstance();
 
-        createFile(TEST_USER_FILE, "1,johndoe,johndoe@example.com,pass123,Regular");
+        createFile(TEST_USER_FILE, 
+            "1,johndoe,johndoe@example.com,pass123,Regular\n" +
+            "2,janedoe,janedoe@example.com,password456,Regular");
         createFile(TEST_ADMIN_FILE, "2,admin,admin@example.com,adminpass,Admin");
         userAuthenticator = UserAuthenticator.getInstance();
     }
@@ -43,6 +45,18 @@ class UserAuthenticatorTest {
     void testAuthenticateUser() {
         assertTrue(userAuthenticator.authenticateUser("1"), "User 'johndoe' should authenticate successfully");
         assertFalse(userAuthenticator.authenticateUser("3"), "User 'unknownuser' should not authenticate");
+    }
+
+    @Test
+    void testValidateCredentials() {
+        assertTrue(userAuthenticator.validateCredentials(TEST_USER_FILE, "johndoe", "pass123"), 
+            "Valid credentials for 'johndoe' should return true");
+        assertTrue(userAuthenticator.validateCredentials(TEST_USER_FILE, "janedoe", "password456"), 
+            "Valid credentials for 'janedoe' should return true");
+        assertFalse(userAuthenticator.validateCredentials(TEST_USER_FILE, "johndoe", "wrongpass"), 
+            "Invalid password for 'johndoe' should return false");
+        assertFalse(userAuthenticator.validateCredentials(TEST_USER_FILE, "nonexistent", "pass123"), 
+            "Nonexistent username should return false");
     }
 }
 
