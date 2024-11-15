@@ -18,7 +18,9 @@ class UserFileManagerTest {
     void setUp() throws IOException {
         userFileManager = UserFileManager.getInstance();
 
-        createFile(TEST_USER_FILE, "1,johndoe,johndoe@example.com,pass123,Regular");
+        createFile(TEST_USER_FILE, 
+            "1,johndoe,johndoe@example.com,pass123,Regular\n" +
+            "2,janedoe,janedoe@example.com,password456,Regular");
         createFile(TEST_ADMIN_FILE, "2,admin,admin@example.com,adminpass,Admin");
     }
 
@@ -95,6 +97,27 @@ class UserFileManagerTest {
     @Test
     void testViewUserDetails() {
         assertDoesNotThrow(() -> userFileManager.viewUserDetails(), "viewUserDetails() should not throw exceptions");
+    }
+
+    @Test
+    void testAuthenticateUser() {
+        assertTrue(userFileManager.authenticateUser("johndoe", "pass123"), "Valid Regular user should authenticate");
+        assertTrue(userFileManager.authenticateUser("admin", "adminpass"), "Valid Admin user should authenticate");
+
+        assertFalse(userFileManager.authenticateUser("johndoe", "wrongpass"), "Invalid password should fail authentication");
+        assertFalse(userFileManager.authenticateUser("unknown", "pass123"), "Unknown user should fail authentication");
+    }
+
+    @Test
+    void testValidateCredentials() {
+        assertTrue(userFileManager.validateCredentials(TEST_USER_FILE, "johndoe", "pass123"), 
+            "Valid credentials for 'johndoe' should return true");
+        assertTrue(userFileManager.validateCredentials(TEST_USER_FILE, "janedoe", "password456"), 
+            "Valid credentials for 'janedoe' should return true");
+        assertFalse(userFileManager.validateCredentials(TEST_USER_FILE, "johndoe", "wrongpass"), 
+            "Invalid password for 'johndoe' should return false");
+        assertFalse(userFileManager.validateCredentials(TEST_USER_FILE, "nonexistent", "pass123"), 
+            "Nonexistent username should return false");
     }
 }
 

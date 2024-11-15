@@ -19,12 +19,9 @@ public class UserFileManager {
         return instance;
     }
 
-    public String getUserFile() {
-        return USER_FILE;
-    }
-
-    public String getAdminFile() {
-        return ADMIN_FILE;
+    public boolean authenticateUser(String username, String password) {
+        return validateCredentials(USER_FILE, username, password)
+        ||validateCredentials(ADMIN_FILE, username, password);
     }
 
     public boolean doesUserExist(String userID) {
@@ -118,6 +115,21 @@ public class UserFileManager {
                 String[] userData = line.split(",");
                 if (userData[0].equals(userID)) { 
                     return true;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean validateCredentials(String filePath, String username, String password) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userData = line.split(",");
+                if (userData[1].equals(username) && userData[3].equals(password)) {
+                    return true; 
                 }
             }
         } catch (IOException e) {
